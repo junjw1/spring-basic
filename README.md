@@ -60,14 +60,14 @@ A는 B와 C를 생성해 쓰고 있습니다. A는 B와 C에 의존한다고 표
 Simple Spring Project를 생성하세요.
 
 1. `New > Spring Legacy Project`
-1. Project name: SpringBasic
+1. Project name: 01ColorPersonality
 1. Template: Simple Spring Maven
 1. finish
 
 src/main/java 이하에 새로운 패키지를 생성하세요.
 
 1. `New > Packege`
-1. Source folder: SpringBasic/src/main/java
+1. Source folder: 01ColorPersonality/src/main/java
 1. Name: com.basic.ex
 1. finish
 
@@ -102,10 +102,10 @@ public class ColorPersonalityJudgment {
 }
 ```
 
-SpringBasic/src/main/resources 이하에 자바 설정 파일을 생성하세요.
+01ColorPersonality/src/main/resources 이하에 자바 설정 파일을 생성하세요.
 
 - `New > Java Bean Configuration File `
-- parent folder: SpringBasic/src/main/resources
+- parent folder: 01ColorPersonality/src/main/resources
 - File name: applicationCTX.xml
 - finish
 ```xml
@@ -221,11 +221,11 @@ public void judgeUserPersonality() {
 </bean>
 ```
 
-`id` 속성값이 `colorPersonalityJudgment`인 태그 `bean`을 봅시다.
+`id` 속성값이 `colorPersonalityJudgment`인 태그 `<bean>`을 봅시다.
 
 `class` 속성값을 보니 우리가 이전에 만든 `ColorPersonalityJudgment` 클래스입니다. 패키지 이름까지 풀네임으로 명시해줍니다.
 
-`id` 속성값이 `myJudgment`인 태그 `bean`을 봅시다. 클래스가 `MyJudgment`네요.
+`id` 속성값이 `myJudgment`인 태그 `<bean>`을 봅시다. 클래스가 `MyJudgment`네요.
 
 그 하위에 `<property>` 태그들이 나열되어 있습니다. `name` 속성값을 보니 `userName`, `userColor`, `colorPersonalityJudgment`로 `myJudgment` 클래스에 정의된 변수들 이네요.
 
