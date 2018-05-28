@@ -2,7 +2,7 @@
 
 ## 목표
 
-1. [Spring이란?](#Spring이란?) 
+1. [Spring이란?](#Spring이란) 
 1. [간단한 스프링 프로젝트 만들기](#간단한-스프링-프로젝트-만들기)
     1. 개발환경 설정
     1. 스프링 프로젝트 생성
@@ -16,7 +16,7 @@
 - JDK: Java SE 10.0.1 (2018.05 최신버전)
 - STS: Spring Tools 3.9.4 (2018.05 최신버전)
 
-# Spring이란?
+# Spring이란
 
 기초 데이터를 읽어 연산 후 결과를 보여주는 프로그램을 스프링 기법으로 만들어봅시다. 
 
@@ -151,9 +151,10 @@ public void judgePersonality(String color) {
 
 ```
 변수:
-    ColorPersonalityJudgment 객체
     String 사용자 이름
     String 사용자 색깔
+    ColorPersonalityJudgment 객체
+
 메서드:
     getter와 setter
     사용자 이름과 색깔 출력
@@ -161,17 +162,9 @@ public void judgePersonality(String color) {
 ```
 
 ```java
-private ColorPersonalityJudgment colorPersonalityJudgment;
 private String userName;
 private String userColor;
-
-public ColorPersonalityJudgment getColorPersonalityJudgment() {
-    return colorPersonalityJudgment;
-}
-
-public void setColorPersonalityJudgment(ColorPersonalityJudgment colorPersonalityJudgment) {
-    this.colorPersonalityJudgment = colorPersonalityJudgment;
-}
+private ColorPersonalityJudgment colorPersonalityJudgment;
 
 public String getUserName() {
     return userName;
@@ -187,6 +180,14 @@ public String getUserColor() {
 
 public void setUserColor(String userColor) {
     this.userColor = userColor;
+}
+
+public ColorPersonalityJudgment getColorPersonalityJudgment() {
+    return colorPersonalityJudgment;
+}
+
+public void setColorPersonalityJudgment(ColorPersonalityJudgment colorPersonalityJudgment) {
+    this.colorPersonalityJudgment = colorPersonalityJudgment;
 }
 
 public void printUserInfo() {
@@ -206,13 +207,29 @@ public void judgeUserPersonality() {
 </bean>
 
 <bean id="myJudgment" class="com.basic.ex.MyJudgment">
+    <property name="userName" value="전정완" />
+    <property name="userColor" value="주황" />
     <property name="colorPersonalityJudgment">
         <ref bean="colorPersonalityJudgment" />
     </property>
-    <property name="userName" value="전정완" />
-    <property name="userColor" value="주황" />
 </bean>
 ```
+
+`id` 속성값이 `colorPersonalityJudgment`인 태그 `bean`을 봅시다.
+
+`class` 속성값을 보니 우리가 이전에 만든 `ColorPersonalityJudgment` 클래스입니다. 패키지 이름까지 풀네임으로 명시해줍니다.
+
+`id` 속성값이 `myJudgment`인 태그 `bean`을 봅시다. 클래스가 `MyJudgment`네요.
+
+그 하위에 `<property>` 태그들이 나열되어 있습니다. `name` 속성값을 보니 `userName`, `userColor`, `colorPersonalityJudgment`로 `myJudgment` 클래스에 정의된 변수들 이네요.
+
+`userName` 프로퍼티와 `userColor` 프로퍼티에는 사용자 이름, 색깔 데이터가 `value` 속성값에 명시되 있습니다.
+
+`colorPersonalityJudgment` 프로퍼티는 `<ref>` 태그로 `bean`속성값이 `colorPersonalityJudgment`라 명시되어 있는데
+
+이것은 `id`가 `colorPersonalityJudgment`인 `<bean>`을 가리킨다(참조한다)는 뜻입니다.
+
+각 `<property>` 태그의 `name` 속성에 각 값이 들어갈 수 있는 이유는, `MyJudgment.java`에 setter인 `setUserName()`, `setUserColor()`, `setColorPersonalityJudgment()`가 기술되어 있기 때문입니다.
 
 ## MainClass.java
 
@@ -224,6 +241,12 @@ MyJudgment myJudgment = ctx.getBean("myJudgment", MyJudgment.class);
 myJudgment.printUserInfo();
 myJudgment.judgeUserPersonality();
 ```
+
+`GenericXmlApplicationContext()` 메서드로 `applicationCTX.xml`의 내용을 파싱하여 `ctx`에 할당합니다. `ctx`의 `getBean()`메서드로 `myJudgment` 객체를 가져와서 사용하고 있습니다.
+
+`new` 연산자로 `MyJudgment` 객체를 내부에서 직접 생성하지 않고,
+
+spring에서 제공하는 메서드를 사용해 xml파일을 파싱하여 생성된 객체를 외부에서 받아쓰고 있습니다.
 
 # 실행
 
