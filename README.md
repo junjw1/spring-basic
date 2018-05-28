@@ -2,9 +2,15 @@
 
 ## 목표
 
-1. [Spring이란?](#Spring이란) 
-1. [간단한 스프링 프로젝트 만들기](#간단한-스프링-프로젝트-만들기)
+Hi, guys! 간단한 스프링 프로젝트를 통해 스프링을 알아봅시다.
+
+1. [Spring이란?](#spring이란) 
+1. [색깔 심리테스트](#색깔-심리테스트)
     1. 개발환경 설정
+    1. 스프링 프로젝트 생성
+    1. 코드작성
+    1. 실행
+1. [삼색 볼펜](#삼색-볼펜)
     1. 스프링 프로젝트 생성
     1. 코드작성
     1. 실행
@@ -16,7 +22,7 @@
 - JDK: Java SE 10.0.1 (2018.05 최신버전)
 - STS: Spring Tools 3.9.4 (2018.05 최신버전)
 
-# Spring이란
+# Spring이란?
 
 기초 데이터를 읽어 연산 후 결과를 보여주는 프로그램을 스프링 기법으로 만들어봅시다. 
 
@@ -36,11 +42,11 @@ A는 B와 C를 생성해 쓰고 있습니다. A는 B와 C에 의존한다고 표
 
 > 스프링이란 부품을 생성하고 조립하는 라이브러리 집합체이다.
 
-# 간단한 스프링 프로젝트 만들기
+# 색깔 심리테스트
 
 이름, 색깔로 성격을 판별 후 결과를 보여주는 프로그램을 스프링 기법으로 만들어봅시다.
 
-# 개발환경 설정
+## 개발환경 설정
 
 이클립스와 JDK를 설치하세요.
 
@@ -49,7 +55,7 @@ A는 B와 C를 생성해 쓰고 있습니다. A는 B와 C에 의존한다고 표
 - 이클립스의 `Help > Eclipse Marketplace`에서 검색창에 'STS'를 치고 검색 후 설치
 - 모든 설치된 후 이클립스 재시작 되면 완료, 스프링 perspective 열기
 
-# 스프링 프로젝트 생성
+## 스프링 프로젝트 생성
 
 Simple Spring Project를 생성하세요.
 
@@ -112,9 +118,9 @@ SpringBasic/src/main/resources 이하에 자바 설정 파일을 생성하세요
 </beans>
 ```
 
-# 코드 작성
+## 코드 작성
 
-## ColorPersonalityJudgment.java
+### ColorPersonalityJudgment.java
 
 > Do It Yourself ! 색깔로 성격을 판별하는 메서드를 작성하세요.
 
@@ -145,7 +151,7 @@ public void judgePersonality(String color) {
 }
 ```
 
-## MyJudgment.java
+### MyJudgment.java
 
 > Do It Yourself ! 아래의 조건에 맞게 변수와 메서드를 작성하세요.
 
@@ -200,7 +206,7 @@ public void judgeUserPersonality() {
 }
 ```
 
-## applicationCTX.xml
+### applicationCTX.xml
 
 ```xml
 <bean id="colorPersonalityJudgment" class="com.basic.ex.ColorPersonalityJudgment">
@@ -231,7 +237,7 @@ public void judgeUserPersonality() {
 
 각 `<property>` 태그의 `name` 속성에 각 값이 들어갈 수 있는 이유는, `MyJudgment.java`에 setter인 `setUserName()`, `setUserColor()`, `setColorPersonalityJudgment()`가 기술되어 있기 때문입니다.
 
-## MainClass.java
+### MainClass.java
 
 ```java
 String configLocation = "applicationCTX.xml";
@@ -242,17 +248,30 @@ myJudgment.printUserInfo();
 myJudgment.judgeUserPersonality();
 ```
 
-`GenericXmlApplicationContext()` 메서드로 `applicationCTX.xml`의 내용을 파싱하여 `ctx`에 할당합니다. `ctx`의 `getBean()`메서드로 `myJudgment` 객체를 가져와서 사용하고 있습니다.
+추상클래스 `AbstractApplicationContext`를 상속받는 클래스인 `GenericXmlApplicationContext`으로 스프링 컨테이너를 생성합니다. 생성한 컨테이너에서 `getBean()` 메서드를 통해 컴포넌트 `myJudgement`를 가져옵니다.
 
 `new` 연산자로 `MyJudgment` 객체를 내부에서 직접 생성하지 않고,
 
 spring에서 제공하는 메서드를 사용해 xml파일을 파싱하여 생성된 객체를 외부에서 받아쓰고 있습니다.
 
-# 실행
+## 실행
 
 `Run > Run As > Java Application`으로 실행하여 console창에서 결과를 확인하세요.
+
+
+**DI 사용에 대한 장점**
+
+> Java 파일의 수정 없이 스프링 설정 파일만을 수정하여 부품들을 생성하고 조립할 수 있습니다.
+
+# 삼색 볼펜
+
+Java 코드의 수정없이, 필요한 색깔의 볼펜 객체를 바꿔 사용해 봅시다.
 
 # 참고
 
 - [인프런, 자바 스프링 강좌](https://www.inflearn.com/course/%EC%9E%90%EB%B0%94-%EC%8A%A4%ED%94%84%EB%A7%81-%EA%B0%95%EC%A2%8C/)
 - [색깔로 알아보는 심리테스트](https://m.blog.naver.com/PostView.nhn?blogId=gppcgppc&logNo=220872458645&proxyReferer=https%3A%2F%2Fwww.google.co.kr%2F)
+- [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+- 스프링 추가
+    - [blog.outsider.ne.kr](https://blog.outsider.ne.kr/735)
+    - [jhleed.tistory.com](http://jhleed.tistory.com/61)
