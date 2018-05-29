@@ -21,6 +21,8 @@ Hi, guys! 간단한 스프링 프로젝트를 통해 스프링을 알아봅시�
 - 이클립스: Eclipse IDE Oxygen.3a Release (4.7.3a) (2018.05 최신버전)
 - JDK: Java SE 10.0.1 (2018.05 최신버전)
 - STS: Spring Tools 3.9.4 (2018.05 최신버전)
+- Spring Version 3.2.3.RELEASE
+- Hibernate 4.2.1.Final
 
 # Spring이란?
 
