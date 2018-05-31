@@ -11,7 +11,6 @@ Hi, guys! 간단한 스프링 프로젝트를 통해 스프링을 알아봅시�
     1. 코드작성
     1. 실행
 1. [삼색 볼펜](#삼색-볼펜)
-    1. 스프링 프로젝트 생성
     1. 코드작성
     1. 실행
 1. [참고](#참고)
@@ -268,6 +267,113 @@ spring에서 제공하는 메서드를 사용해 xml파일을 파싱하여 생�
 # 삼색 볼펜
 
 Java 코드의 수정없이, 필요한 색깔의 볼펜 객체를 바꿔 사용해 봅시다.
+
+## 코드작성
+
+- 프로젝트 이름 : 02ThreeColorPen
+
+- src/main/java/com/basic/ex/Pen.java
+
+```java
+package com.basic.ex;
+
+public interface Pen {
+	
+	public void use();
+	
+}
+```
+
+
+- src/main/java/com/basic/ex/BlackPen.java
+
+```java
+package com.basic.ex;
+
+public class BlackPen implements Pen{
+
+	@Override
+	public void use() {
+		System.out.println("black color pen");
+	}
+
+}
+```
+
+- src/main/java/com/basic/ex/RedPen.java
+
+```java
+package com.basic.ex;
+
+public class RedPen implements Pen{
+
+	@Override
+	public void use() {
+		System.out.println("red color pen");
+	}
+
+}
+```
+
+- src/main/java/com/basic/ex/BluePen.java
+```java
+package com.basic.ex;
+
+public class BluePen implements Pen{
+
+	@Override
+	public void use() {
+		System.out.println("blue color pen");
+	}
+
+}
+```
+
+- src/main/resources/applicationCTX.xml
+```xml
+<beans>
+
+	<bean id="pen" class="com.basic.ex.RedPen">
+	</bean>
+
+</beans>
+```
+
+- src/main/java/com/basic/ex/MainClass.java
+```java
+package com.basic.ex;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
+		Pen pen = ctx.getBean("pen", Pen.class);
+		pen.use();
+		
+		ctx.close();
+	}
+
+}
+```
+
+## 실행
+
+실행하여 결과를 확인해 봅시다.
+
+> Do It Yourself ! 검정색 볼펜을 써보세요.
+
+- src/main/resources/applicationCTX.xml
+```xml
+<beans>
+
+	<bean id="pen" class="com.basic.ex.BlackPen">
+	</bean>
+
+</beans>
+```
+
+java 코드 수정 없이 xml 설정파일에서 원하는 클래스 이름만 바꾸어 주면 됩니다.
 
 # 참고
 
