@@ -13,6 +13,8 @@ Hi, guys! 간단한 스프링 프로젝트를 통해 스프링을 알아봅시�
 1. [삼색 볼펜](#삼색-볼펜)
     1. 코드작성
     1. 실행
+1. [외부파일을 이용한 설정 - Environment 객체 사용](#외부파일을-이용한-설정---environment-객체-사용)
+    1. context
 1. [참고](#참고)
 
 ## 개발 환경
@@ -374,6 +376,137 @@ public class MainClass {
 ```
 
 java 코드 수정 없이 xml 설정파일에서 원하는 클래스 이름만 바꾸어 주면 됩니다.
+
+# 외부파일을 이용한 설정 - Environment 객체 사용
+
+우리는 필요한 정보를 얻기 위해, context에서 `Environment` 객체를 얻고, 여기서 정보들을 관리하고 있는 `propertySources` 객체를 얻을 수 있습니다. `propertySources.addLast()`와 `env.getProperty()`로 정보를 추가하고 얻을 수 있습니다.
+
+## 코드작성
+
+- src/main/resources/admin.properties
+
+```
+admin.id=abcde
+admin.pw=12345
+```
+관리자 아이디와 패스워드 정보가 있는 설정파일입니다. 이 정보를 `Environment` 객체를 통해 추가하고(add), 얻어와 봅시다(get).
+
+- src/main/java/com/basic/ex/MainClass.java
+
+```java
+public class MainClass {
+
+	public static void main(String[] args) {
+		
+		ConfigurableApplicationContext ctx = new GenericXmlApplicationContext();
+		ConfigurableEnvironment env = ctx.getEnvironment(); 
+		MutablePropertySources propertySources = env.getPropertySources(); 
+		
+		try {
+			propertySources.addLast(new ResourcePropertySource("classpath:admin.properties")); 
+			
+			System.out.println(env.getProperty("admin.id"));
+			System.out.println(env.getProperty("admin.pw"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		ctx.close();
+	}
+
+}
+```
+
+admin.properties 정보를 추가하고, 추가한 내용을 확인해 봅니다.
+
+또한, 스프링 설정 파일과 `EnvironmentAware`를 구현하여 외부파일의 정보를 객체에 주입할 수 있습니다.
+
+- src/main/resources/applicationCTX.xml
+
+```xml
+<beans>
+
+	<bean id="adminConnection" class="com.basic.ex.AdminConnection"/>
+
+</beans>
+```
+
+- src/main/java/com/basic/ex/AdminConnection.java
+
+```java
+public class AdminConnection implements EnvironmentAware, InitializingBean, DisposableBean{
+	
+	private Environment env;
+	private String adminId;
+	private String adminPw;
+	
+	public Environment getEnv() {
+		return env;
+	}
+	public void setEnv(Environment env) {
+		this.env = env;
+	}
+	public String getAdminId() {
+		return adminId;
+	}
+	public void setAdminId(String adminId) {
+		this.adminId = adminId;
+	}
+	public String getAdminPw() {
+		return adminPw;
+	}
+	public void setAdminPw(String adminPw) {
+		this.adminPw = adminPw;
+	}
+	
+	@Override
+	public void setEnvironment(Environment environment) { 
+		System.out.println("setEnvironment()");
+		setEnv(environment); 
+	}
+	
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("afterPropertiesSet()");
+		setAdminId(env.getProperty("admin.id"));
+		setAdminPw(env.getProperty("admin.pw"));
+	}
+	
+	@Override
+	public void destroy() throws Exception {
+		System.out.println("destory()");
+	}
+	
+}
+```
+
+`EnvironmentAware`를 구현하여 오버라이드한 `setEnvironment()` 메서드는 빈 생성 전에 호출됩니다. 시스템이 넘겨준 `Environment` 객체를 매개변수로 받아 setter를 통해 `env` 필드에 설정합니다.
+
+이후 `afterPropertiesSet()`가 호출되고, 이미 env객체가 생성되었으므로 `getProperty()`로 정보를 얻은 다음 setter로 `adminId`와 `adminPw` 필드에 값을 설정 합니다.
+
+```java
+public class MainClass {
+
+	public static void main(String[] args) {
+
+		GenericXmlApplicationContext gCtx = (GenericXmlApplicationContext)ctx; 
+		gCtx.load("applicationCTX.xml"); 
+		gCtx.refresh(); // 빈 생성 됨
+		
+		AdminConnection adminConnection = gCtx.getBean("adminConnection", AdminConnection.class);
+		System.out.println( "admin ID : " + adminConnection.getAdminId() ); 
+		System.out.println( "admin PW : " + adminConnection.getAdminPw() );
+		
+		gCtx.close();
+	}
+}
+```
+
+## 실행
+
+admin.properties 파일에 있는 id, pw가 출력됩니다.
+
+## Environment 객체 사용 X, 프로퍼티 파일
 
 # 참고
 
