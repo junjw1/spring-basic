@@ -2,7 +2,7 @@
 
 ## 목표
 
-Hi, guys! 간단한 스프링 프로젝트를 통해 스프링을 알아봅시다.
+Hi, guys! 간단한 스프링 프로젝트를 통해 스프링을 알아보기
 
 1. [Spring이란?](#spring이란) 
 1. [색깔 심리테스트](#색깔-심리테스트)
@@ -27,9 +27,9 @@ Hi, guys! 간단한 스프링 프로젝트를 통해 스프링을 알아봅시�
 
 # Spring이란?
 
-기초 데이터를 읽어 연산 후 결과를 보여주는 프로그램을 스프링 기법으로 만들어봅시다. 
+기초 데이터를 읽어 연산 후 결과를 보여주는 프로그램을 스프링 기법으로 만들어보기 
 
-스프링 기법을 적용해보기 전에 알면 좋은 개념에 대해 알아봅시다.
+스프링 기법을 적용해보기 전에 알면 좋은 개념에 대해 알아보기
 
 ## Dependency Injection (DI)
 
@@ -47,7 +47,7 @@ A는 B와 C를 생성해 쓰고 있습니다. A는 B와 C에 의존한다고 표
 
 # 색깔 심리테스트
 
-이름, 색깔로 성격을 판별 후 결과를 보여주는 프로그램을 스프링 기법으로 만들어봅시다.
+이름, 색깔로 성격을 판별 후 결과를 보여주는 프로그램을 스프링 기법으로 만들어보기
 
 ## 개발환경 설정
 
@@ -224,11 +224,11 @@ public void judgeUserPersonality() {
 </bean>
 ```
 
-`id` 속성값이 `colorPersonalityJudgment`인 태그 `<bean>`을 봅시다.
+`id` 속성값이 `colorPersonalityJudgment`인 태그 `<bean>`을 보기
 
 `class` 속성값을 보니 우리가 이전에 만든 `ColorPersonalityJudgment` 클래스입니다. 패키지 이름까지 풀네임으로 명시해줍니다.
 
-`id` 속성값이 `myJudgment`인 태그 `<bean>`을 봅시다. 클래스가 `MyJudgment`네요.
+`id` 속성값이 `myJudgment`인 태그 `<bean>`을 보기 클래스가 `MyJudgment`네요.
 
 그 하위에 `<property>` 태그들이 나열되어 있습니다. `name` 속성값을 보니 `userName`, `userColor`, `colorPersonalityJudgment`로 `myJudgment` 클래스에 정의된 변수들 이네요.
 
@@ -268,7 +268,7 @@ spring에서 제공하는 메서드를 사용해 xml파일을 파싱하여 생�
 
 # 삼색 볼펜
 
-Java 코드의 수정없이, 필요한 색깔의 볼펜 객체를 바꿔 사용해 봅시다.
+Java 코드의 수정없이, 필요한 색깔의 볼펜 객체를 바꿔 사용해 보기
 
 ## 코드작성
 
@@ -361,7 +361,7 @@ public class MainClass {
 
 ## 실행
 
-실행하여 결과를 확인해 봅시다.
+실행하여 결과를 확인해 보기
 
 > Do It Yourself ! 검정색 볼펜을 써보세요.
 
@@ -482,7 +482,7 @@ public class AdminConnection implements EnvironmentAware, InitializingBean, Disp
 
 `EnvironmentAware`를 구현하여 오버라이드한 `setEnvironment()` 메서드는 빈 생성 전에 호출됩니다. 시스템이 넘겨준 `Environment` 객체를 매개변수로 받아 setter를 통해 `env` 필드에 설정합니다.
 
-이후 `afterPropertiesSet()`가 호출되고, 이미 env객체가 생성되었으므로 `getProperty()`로 정보를 얻은 다음 setter로 `adminId`와 `adminPw` 필드에 값을 설정 합니다.
+이후 `afterPropertiesSet()`가 호출되고, 이미 env객체가 생성되었으므로 `getProperty()`로 정보를 얻은 다음 setter로 `adminId`와 `adminPw` 필드에 값을 설정합니다.
 
 ```java
 public class MainClass {
